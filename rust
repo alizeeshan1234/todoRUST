@@ -1,0 +1,72 @@
+#[derive(Debug)]
+struct Task {
+    id: u32,
+    title: String,
+    completed: Option<bool>,
+}
+
+impl Task {
+    fn store_tasks(vec: &Vec<Task>) {
+        for tasks in vec {
+            println!("{:?}", tasks);
+        }
+    }
+
+    fn search_task(task_name: &String, task_db: &Vec<Task>) -> Option<String> {
+        for task in task_db {
+            if task_name == &task.title {
+                println!("Id : {}", task.id);
+                println!("Title : {}", task.title);
+                println!("Status : {:?}", task.completed);
+                return Some(task_name.to_string());
+            }
+        }
+        None
+    }
+
+    fn add_task(
+        task_id: u32,
+        task_title: String,
+        task_completed: Option<bool>,
+        db: &mut Vec<Task>,
+    ) {
+        let new_task = Task {
+            id: task_id,
+            title: task_title,
+            completed: task_completed,
+        };
+
+        db.push(new_task);
+    }
+}
+
+fn main() {
+    let mut new_task = vec![
+        Task {
+            id: 1,
+            title: "Homework".to_string(),
+            completed: Some(true),
+        },
+        Task {
+            id: 2,
+            title: "Programming".to_string(),
+            completed: Some(true),
+        },
+        Task {
+            id: 3,
+            title: "Reading".to_string(),
+            completed: Some(true),
+        },
+        Task {
+            id: 4,
+            title: "Exercise".to_string(),
+            completed: None,
+        },
+    ];
+
+    let task = Task::search_task(&"Homework".to_string(), &new_task);
+    let task_2 = Task::search_task(&"Exercise".to_string(), &new_task);
+    Task::add_task(5, "Drawing".to_string(), Some(true), &mut new_task);
+    let task_3 = Task::search_task(&"Drawing".to_string(), &new_task);
+    Task::store_tasks(&new_task);
+}
